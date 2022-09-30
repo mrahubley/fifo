@@ -12,7 +12,7 @@ router = APIRouter(prefix='/accounts', tags=['Accounts'])
 
 #Get accounts
 @router.get('/', response_model=List[schemas.Accounts])
-def get_accounts(db: Session = Depends(get_db), limit: int = 10, skip: int = 0, active: Optional[bool]="true", search: Optional[str]=""):
+def get_accounts(db: Session = Depends(get_db), limit: int = 10, skip: int = 0, search: Optional[str]=""):
     query = db.query(models.Account).filter(models.Account.email.contains(search)).limit(limit).offset(skip).all()
     if not query:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No account found!")
