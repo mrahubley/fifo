@@ -30,7 +30,7 @@ def get_account(id: int, db: Session = Depends(get_db), user_id: int = Depends(o
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=schemas.Accounts)
-def create_account(account: schemas.AccountCreate, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+def create_account(account: schemas.AccountCreate, db: Session = Depends(get_db)):
     query = db.query(models.Account).filter(or_(models.Account.email == account.email, models.Account.number == account.number))
     check_query = query.first()
     pwd_hashed = hashpassword(account.password)
